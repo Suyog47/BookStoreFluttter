@@ -159,7 +159,7 @@ class _BuyHomeState extends State<BuyHome> {
                                         ),
 
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         SizedBox(
                                           height: 120,
@@ -173,7 +173,13 @@ class _BuyHomeState extends State<BuyHome> {
                                         Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text(data[index]["standard"] + "   " + data[index]["subject"] + "  (" + data[index]["boards"] + ")",
+                                              Text(data[index]["standard"] + "   " + data[index]["subject"],
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17.0
+                                                ),),
+
+                                              Text("(" + data[index]["boards"] + ")",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17.0

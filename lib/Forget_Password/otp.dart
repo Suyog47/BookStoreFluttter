@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:random_string/random_string.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bookonline/Decorations/loader.dart';

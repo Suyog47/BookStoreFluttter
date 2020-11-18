@@ -58,7 +58,7 @@ class _UpdationState extends State<Updation> {
       "state" : _loc,
       "pass" : _pass
     };
-    db.updateProfile(context, url, data);
+    await db.updateProfile(context, url, dt);
     setState(() => ld = 0);
   }
 

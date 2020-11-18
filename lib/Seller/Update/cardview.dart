@@ -101,7 +101,7 @@ class _BookCardsState extends State<BookCards> {
                                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
 
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         SizedBox(
                                           height: 120,
@@ -112,10 +112,18 @@ class _BookCardsState extends State<BookCards> {
                                           )
                                         ),
 
+                                        //SizedBox(width: 20),
+
                                         Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text(data[index]["standard"] + "   " + data[index]["subject"] + "  (" + data[index]["boards"] + ")",
+                                              Text(data[index]["standard"] + "   " + data[index]["subject"],
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17.0
+                                                ),),
+
+                                              Text("(" + data[index]["boards"] + ")",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17.0
@@ -129,7 +137,7 @@ class _BookCardsState extends State<BookCards> {
                                                     fontSize: 25.0
                                                 ),),
 
-                                              SizedBox(height: 25),
+                                              SizedBox(height: 20),
 
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
