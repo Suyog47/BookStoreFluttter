@@ -124,7 +124,7 @@ class _BuyHomeState extends State<BuyHome> {
                 ],
               ),
 
-                SizedBox(height: 30),
+                SizedBox(height: 20),
 
                 data == "0 results" ?
                 Container(
@@ -146,93 +146,81 @@ class _BuyHomeState extends State<BuyHome> {
                           onTap: (){
                             Navigator.pushNamed(context, "/pdp", arguments: data[index]);
                           },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            child: Column(
+                          child: Card(
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7.0),
+                            ),
+
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                      border: Border.all(color: Colors.redAccent, width: 2.0),
-                                        borderRadius: BorderRadius.circular(7),
-                                        ),
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SizedBox(
-                                          height: 120,
-                                          width: 110,
-                                          child: Image.network(
-                                            "http://birk-evaluation.000webhostapp.com/" + data[index]["pic1"],
-                                            fit: BoxFit.fill,
-                                          )
-                                        ),
-
-                                        Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(data[index]["standard"] + "   " + data[index]["subject"],
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17.0
-                                                ),),
-
-                                              Text("(" + data[index]["boards"] + ")",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17.0
-                                                ),),
-
-                                              SizedBox(height: 10),
-
-                                              Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Text("Rs: ",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 14
-                                                      ),),
-
-                                                    SizedBox(width: 5),
-
-                                                    Text(data[index]["price"],
-                                                      style: TextStyle(fontSize: 25,),),
-                                                  ]
-                                              ),
-
-                                              SizedBox(height: 25),
-
-                                              Column(
-                                                //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: [
-                                                  Text("Seller from:",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold
-                                                  ),),
-
-                                                  SizedBox(width: 5),
-
-                                                  Text(data[index]["state"]),
-                                                ]
-                                              ),
-                                            ]
-                                        ),
-                                      ],
-                                    ),
+                                  SizedBox(
+                                    height: 120,
+                                    width: 110,
+                                    child: Image.network(
+                                      "http://birk-evaluation.000webhostapp.com/" + data[index]["pic1"],
+                                      fit: BoxFit.fill,
+                                    )
                                   ),
 
-                                  SizedBox(height: 10),
+                                  Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(data[index]["standard"] + "   " + data[index]["subject"],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17.0
+                                          ),),
 
-                                  Divider(
-                                    thickness: 1.5,
-                                    color: Colors.blueAccent,
-                                  )
-                                ]
+                                        Text("(" + data[index]["boards"] + ")",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17.0
+                                          ),),
+
+                                        SizedBox(height: 10),
+
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text("Rs: ",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14
+                                                ),),
+
+                                              SizedBox(width: 5),
+
+                                              Text(data[index]["price"],
+                                                style: TextStyle(fontSize: 25,),),
+                                            ]
+                                        ),
+
+                                        SizedBox(height: 25),
+
+                                        Column(
+                                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text("Seller from:",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold
+                                            ),),
+
+                                            SizedBox(width: 5),
+
+                                            Text(data[index]["state"]),
+                                          ]
+                                        ),
+                                      ]
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

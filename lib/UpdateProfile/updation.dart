@@ -66,7 +66,7 @@ class _UpdationState extends State<Updation> {
   Widget build(BuildContext context) {
 
     data = ModalRoute.of(context).settings.arguments;
-    (check) ? getData(data["email"]) : null;
+    if(check){getData(data["email"]);}
 
     return Scaffold(
     resizeToAvoidBottomPadding: false,

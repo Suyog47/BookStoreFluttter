@@ -88,96 +88,84 @@ class _BookCardsState extends State<BookCards> {
                           onTap: (){
                             Navigator.pushNamed(context, "/category", arguments: {"data" : data[index], "email" : emaildt["email"], "task" : "update"});
                           },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            child: Column(
+                          child: Card(
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7.0),
+                            ),
+                            
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.blueAccent, width: 2.0),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SizedBox(
-                                          height: 120,
-                                          width: 110,
-                                          child: Image.network(
-                                            "http://birk-evaluation.000webhostapp.com/" + data[index]["pic1"],
-                                            fit: BoxFit.fill,
-                                          )
-                                        ),
-
-                                        //SizedBox(width: 20),
-
-                                        Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(data[index]["standard"] + "   " + data[index]["subject"],
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17.0
-                                                ),),
-
-                                              Text("(" + data[index]["boards"] + ")",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17.0
-                                                ),),
-
-                                              SizedBox(height: 10),
-
-                                              Text(data[index]["price"],
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 25.0
-                                                ),),
-
-                                              SizedBox(height: 20),
-
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 35,
-                                                    width: 80,
-                                                    child: RaisedButton(
-                                                        onPressed: () {
-                                                          SweetAlert.show(context, title: "Confirmation",
-                                                              subtitle: "Really want to delete this book",
-                                                              style: SweetAlertStyle.confirm,
-                                                              showCancelButton: true,
-                                                              onPress: (bool isConfirm){
-                                                                if (isConfirm) {
-                                                                  deleteBook(data[index]["Id"]+"");
-                                                                }
-                                                                return true;
-                                                              });
-                                                        },
-                                                        child: Text("Delete",
-                                                            style: TextStyle(
-                                                                color: Colors.white)),
-                                                        color: Colors.red),
-                                                  ),
-                                                ],
-                                              ),
-                                            ]
-                                        ),
-                                      ],
-                                    ),
+                                  SizedBox(
+                                    height: 120,
+                                    width: 110,
+                                    child: Image.network(
+                                      "http://birk-evaluation.000webhostapp.com/" + data[index]["pic1"],
+                                      fit: BoxFit.fill,
+                                    )
                                   ),
 
-                                  SizedBox(height: 10),
+                                  //SizedBox(width: 20),
 
-                                  Divider(
-                                    thickness: 1.5,
-                                    color: Colors.red,
-                                  )
-                                ]
+                                  Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(data[index]["standard"] + "   " + data[index]["subject"],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17.0
+                                          ),),
+
+                                        Text("(" + data[index]["boards"] + ")",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17.0
+                                          ),),
+
+                                        SizedBox(height: 10),
+
+                                        Text(data[index]["price"],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25.0
+                                          ),),
+
+                                        SizedBox(height: 20),
+
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              height: 35,
+                                              width: 80,
+                                              child: RaisedButton(
+                                                  onPressed: () {
+                                                    SweetAlert.show(context, title: "Confirmation",
+                                                        subtitle: "Really want to delete this book",
+                                                        style: SweetAlertStyle.confirm,
+                                                        showCancelButton: true,
+                                                        onPress: (bool isConfirm){
+                                                          if (isConfirm) {
+                                                            deleteBook(data[index]["Id"]+"");
+                                                          }
+                                                          return true;
+                                                        });
+                                                  },
+                                                  child: Text("Delete",
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
+                                      ]
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
