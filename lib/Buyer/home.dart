@@ -15,25 +15,17 @@ class BuyHome extends StatefulWidget {
 class _BuyHomeState extends State<BuyHome> {
 
   DropDownFiles dr = DropDownFiles();
-  String board = "SSC", std = "1st";
+  String board = "All", std = "All";
   dynamic data;
   dynamic img;
   int ld = 0;
 
-  Future getAllBooks() async {
-    var url = 'https://birk-evaluation.000webhostapp.com/get_books.php';
-
-    var response = await http.get(url);
-    setState(() {
-      data = jsonDecode(response.body);
-    });
-  }
 
   Future getBooks() async {
     var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
     var dt = {
-      "board" : board,
-      "std" : std,
+      "board" : (board == "All") ? '%' : board,
+      "std" : (std == "All") ? '%' : std,
     };
 
     var response = await http.post(url, body: dt);
@@ -45,7 +37,7 @@ class _BuyHomeState extends State<BuyHome> {
 
   void initState(){
     super.initState();
-    getAllBooks();
+    getBooks();
   }
 
   @override
@@ -88,7 +80,7 @@ class _BuyHomeState extends State<BuyHome> {
                     child: DropdownButtonFormField(
                       value: board,
                       decoration: textInputDecoration,
-                      items: dr.boards.map((st) {
+                      items: dr.aboards.map((st) {
                         return DropdownMenuItem(
                           value: st,
                           child: Text('$st'),
@@ -108,7 +100,7 @@ class _BuyHomeState extends State<BuyHome> {
                     child: DropdownButtonFormField(
                     value: std,
                     decoration: textInputDecoration,
-                    items: dr.standards.map((st) {
+                    items: dr.astandards.map((st) {
                       return DropdownMenuItem(
                         value: st,
                         child: Text('$st'),

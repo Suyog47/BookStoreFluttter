@@ -79,7 +79,12 @@ class _Sign_InState extends State<Sign_In> {
                        TextFormField(
                          decoration: textInputDecoration.copyWith(hintText: 'Email Id:'),
                          onChanged: (val) => _email = val.trim(),
-                         validator: (val) => val.isEmpty ? "Enter Email" : null,
+                           validator: (val) {
+                             if(val.isNotEmpty && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)){
+                               return null;
+                             }
+                             return "Enter valid email";
+                           }
                        ),
 
                        SizedBox(height: 15.0),

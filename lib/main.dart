@@ -11,6 +11,7 @@ import 'package:bookonline/Seller/home.dart';
 import 'package:bookonline/UpdateProfile/updation.dart';
 import 'package:bookonline/Forget_Password/otp.dart';
 import 'package:bookonline/Forget_Password/updatePass.dart';
+import 'package:bookonline/Buyer/full_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/updatebook': (context) => BookCards(),
         '/updation': (context) => Updation(),
         '/pdp': (context) => PDP(),
+        '/imgzoom' : (context) => ImageZoom()
       },
       debugShowCheckedModeBanner: false,
     );

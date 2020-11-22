@@ -123,19 +123,6 @@ class _UpdationState extends State<Updation> {
                   initialValue: data["email"],
                   enabled: false,
                   decoration: textInputDecoration,
-                  validator: (val) => val.isEmpty ? "Enter Email" : null,
-                ),
-              ),
-
-
-              Text("Phone No:"),
-              SizedBox(
-                height: 50.0,
-                child: TextFormField(
-                  initialValue: _num,
-                  decoration: textInputDecoration,
-                  onChanged: (val) => _num = val,
-                  validator: (val) => val.length != 10 ? "Invalid Number" : null,
                 ),
               ),
 
@@ -166,6 +153,20 @@ class _UpdationState extends State<Updation> {
               ),
 
 
+              Text("Phone No:"),
+              SizedBox(
+                height: 50.0,
+                child: TextFormField(
+                  initialValue: _num,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: textInputDecoration,
+                  onChanged: (val) => _num = val,
+                  validator: (val) => val.length != 10 ? "Invalid Number" : null,
+                ),
+              ),
+
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -191,12 +192,14 @@ class _UpdationState extends State<Updation> {
                             setState(() => load = true);
                             GetLocation db = GetLocation();
                             var data = await db.getData(pin);
-                            txt.text = data;
-                            setState(() {
-                              _loc = data;
-                              load = false;
-                              txt.text = data;
-                            });
+                            if(data == null){
+                              Fluttertoast.showToast(msg: "Please enter valid pincode", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+                            }
+                            else {
+                              setState(() => _loc = data);
+                              txt.text = _loc;
+                            }
+                            setState(() => load = false);
                           }
                           else{
                             Fluttertoast.showToast(msg: "Please Enter Pincode", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);

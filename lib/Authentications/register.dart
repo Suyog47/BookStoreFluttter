@@ -97,25 +97,30 @@ class _RegisterState extends State<Register> {
                             TextFormField(
                               decoration: textInputDecoration.copyWith(hintText: 'Email Id:'),
                               onChanged: (val) => _email = val.trim(),
-                              validator: (val) => val.isEmpty ? "Enter Email" : null,
-                            ),
+                              validator: (val) {
+                                if(val.isNotEmpty && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val)){
+                                  return null;
+                                }
+                                  return "Enter valid email";
+                                }
+                                ),
 
 
-                            Stack(
-                              children: <Widget>[
+                                Stack(
+                                children: <Widget>[
                                 SizedBox(
-                                  height: 70.0,
-                                  child: new TextFormField(
-                                    decoration: textInputDecoration.copyWith(hintText: 'Password:'),
-                                    validator: (val) => val.length < 6 || val.length > 20 ? 'Password should be between 6 to 20 chars.' : null,
-                                    onChanged: (val) => _pass = val,
-                                    obscureText: _obscureText,
-                                  ),
+                                height: 70.0,
+                                child: new TextFormField(
+                                decoration: textInputDecoration.copyWith(hintText: 'Password:'),
+                                validator: (val) => val.length < 6 || val.length > 20 ? 'Password should be between 6 to 20 chars.' : null,
+                                onChanged: (val) => _pass = val,
+                                obscureText: _obscureText,
+                                ),
                                 ),
                                 Align(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                      color: Colors.black,
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                color: Colors.black,
                                       onPressed: _toggle,
                                       icon: Icon(_obscureText ? Icons.lock_open : Icons.lock)),
                                 )
@@ -156,16 +161,19 @@ class _RegisterState extends State<Register> {
                                       onPressed: () async {
                                         if (pin != null && pin != "") {
                                           setState(() => load = true);
-                                          GetLocation db = GetLocation();
-                                          var data = await db.getData(pin);
-                                          setState(() {
-                                            _loc = data;
-                                            load = false;
-                                          });
-                                          txt.text = _loc;
+                                          GetLocation loc = GetLocation();
+                                          var data = await loc.getData(pin);
+                                          if(data == null){
+                                            Fluttertoast.showToast(msg: "Please enter valid pincode", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+                                          }
+                                          else {
+                                            setState(() => _loc = data);
+                                            txt.text = _loc;
+                                          }
+                                        setState(() => load = false);
                                         }
                                         else{
-                                          Fluttertoast.showToast(msg: "Please Enter Pincode", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+                                          Fluttertoast.showToast(msg: "Please enter pincode first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
                                         }
                                       },
                                       child: Text("Search", style: TextStyle(color: Colors.white)),
@@ -198,7 +206,7 @@ class _RegisterState extends State<Register> {
                                     setState(() => ld = 1);
                                    insertData();
                                   }
-                                  else{
+                                  if(_loc.isEmpty){
                                     Fluttertoast.showToast(msg: "Please insert pincode and click search", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
                                   }
                                 },

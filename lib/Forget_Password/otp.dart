@@ -17,9 +17,9 @@ class Otp extends StatefulWidget {
 
 class _OtpState extends State<Otp> {
 
-  String i1, i2, i3 ,i4, i5;
+  String i1 = '', i2 = '', i3 = '', i4 = '', i5 = '';
   bool t, btn1 = true;
-  String _email;
+  String _email = '';
   int rand;
   bool ld = false;
 
@@ -36,10 +36,10 @@ class _OtpState extends State<Otp> {
     }
     else{
       setState(() {
+        ld = false;
         Fluttertoast.showToast(msg: "This Email is not registered", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
       });
     }
-    ld = false;
   }
 
   void sendOtp() async {
@@ -110,7 +110,6 @@ class _OtpState extends State<Otp> {
             TextFormField(
               decoration: textInputDecoration.copyWith(hintText: 'Email Id:'),
               onChanged: (val) => _email = val.trim(),
-              validator: (val) => val.isEmpty ? "Enter Email" : null,
             ),
 
             SizedBox(height: 40),
@@ -120,7 +119,7 @@ class _OtpState extends State<Otp> {
               width: 130,
               child: RaisedButton(
                   onPressed: () {
-                    if(btn1) {
+                    if(btn1 && _email.isNotEmpty && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_email)) {
                       setState(() => ld = true);
                       checkEmail();
                     }

@@ -59,109 +59,59 @@ class _ImgState extends State<Img> {
               Row(
               children: [
                 Container(
-                  child:
-                  Column (
-                  children: [
-                   SizedBox(
-                    height: 20,
-                    width: 60,
-                    child: FlatButton(
-                      onPressed: () {
-                    _imgFromGallery(1);
-                    },
-                      color: Colors.transparent,
-                     child: Text("Add",
-                     style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),),
+                 padding: EdgeInsets.all(5.0),
+                 decoration: BoxDecoration(
+                   border: Border.all(color: Colors.blueAccent, width: 2.0),
+                   borderRadius: BorderRadius.circular(8),
+                 ),
 
-                ),
+                 child: SizedBox(
+                   width: 150,
+                   height: 190,
+                   child: InkWell(
+                     onTap: () => _imgFromGallery(1),
+                     child: Center(
+                       child: (_image1 == null) ?
+                       Image(
+                           image: AssetImage('assets/no_image.png'),
+                           fit: BoxFit.fill
+                       ) :
+                       Image.file(
+                         _image1,
+                         fit: BoxFit.fill,
+                       ),
+                     ),
+                   ),
+                 ),
               ),
-
-               Container(
-                padding: EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent, width: 2.0),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-
-                child: SizedBox(
-                  width: 150,
-                  height: 190,
-                  child: Center(
-                    child: SizedBox(
-                      width: 150,
-                      height: 190,
-                      child:(_image1 == null) ?
-                      Image(
-                          image: AssetImage('assets/no_image.png'),
-                          fit: BoxFit.fill
-                      ) :
-                      Image.file(
-                        _image1,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-               ]
-                )
-               ),
 
                 SizedBox(width: 10),
 
                 Container(
-                    child:
-                    Column (
-                        children: [
-                          SizedBox(
-                            height: 20,
-                            width: 60,
-                            child: FlatButton(
-                              onPressed: () {
-                                _imgFromGallery(2);
-                              },
-                              color: Colors.transparent,
-                              child: Text("Add",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                ),),
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent, width: 2.0),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
 
-                            ),
-                          ),
-
-                          Container(
-                            padding: EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blueAccent, width: 2.0),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-
-                            child: SizedBox(
-                              width: 150,
-                              height: 190,
-                              child: Center(
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 190,
-                                  child:(_image2 == null) ?
-                                  Image(
-                                      image: AssetImage('assets/no_image.png'),
-                                      fit: BoxFit.fill
-                                  ) :
-                                  Image.file(
-                                    _image2,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                    )
+                  child: SizedBox(
+                    width: 150,
+                    height: 190,
+                    child: InkWell(
+                      onTap:() => _imgFromGallery(2),
+                      child: Center(
+                        child: (_image2 == null) ?
+                        Image(
+                            image: AssetImage('assets/no_image.png'),
+                            fit: BoxFit.fill
+                        ) :
+                        Image.file(
+                          _image2,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
                 )
               ]
               ),
@@ -172,109 +122,59 @@ class _ImgState extends State<Img> {
                   children: [
 
                     Container(
-                        child:
-                        Column (
-                            children: [
-                              SizedBox(
-                                height: 20,
-                                width: 60,
-                                child: FlatButton(
-                                  onPressed: () {
-                                    _imgFromGallery(3);
-                                  },
-                                  color: Colors.transparent,
-                                  child: Text("Add",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                    ),),
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent, width: 2.0),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
 
-                                ),
-                              ),
-
-                              Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent, width: 2.0),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 190,
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: 150,
-                                      height: 190,
-                                      child:(_image3 == null) ?
-                                      Image(
-                                          image: AssetImage('assets/no_image.png'),
-                                          fit: BoxFit.fill
-                                      ) :
-                                      Image.file(
-                                        _image3,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]
-                        )
+                      child: SizedBox(
+                        width: 150,
+                        height: 190,
+                        child: InkWell(
+                          onTap: () => _imgFromGallery(3),
+                          child: Center(
+                            child: (_image3 == null) ?
+                            Image(
+                                image: AssetImage('assets/no_image.png'),
+                                fit: BoxFit.fill
+                            ) :
+                            Image.file(
+                              _image3,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
 
                     SizedBox(width: 10),
 
                     Container(
-                        child:
-                        Column (
-                            children: [
-                              SizedBox(
-                                height: 20,
-                                width: 60,
-                                child: FlatButton(
-                                  onPressed: () {
-                                    _imgFromGallery(4);
-                                  },
-                                  color: Colors.transparent,
-                                  child: Text("Add",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                    ),),
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent, width: 2.0),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
 
-                                ),
-                              ),
-
-                              Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent, width: 2.0),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 190,
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: 150,
-                                      height: 190,
-                                      child:(_image4 == null) ?
-                                      Image(
-                                          image: AssetImage('assets/no_image.png'),
-                                          fit: BoxFit.fill
-                                      ) :
-                                      Image.file(
-                                        _image4,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]
-                        )
+                      child: SizedBox(
+                        width: 150,
+                        height: 190,
+                        child: InkWell(
+                          onTap: () => _imgFromGallery(4),
+                          child: Center(
+                            child: (_image4 == null) ?
+                            Image(
+                                image: AssetImage('assets/no_image.png'),
+                                fit: BoxFit.fill
+                            ) :
+                            Image.file(
+                              _image4,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
                     )
                   ]
               ),

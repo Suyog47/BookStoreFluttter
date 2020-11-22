@@ -41,7 +41,6 @@ class _PDPState extends State<PDP> {
                             height: 250.0,
                             aspectRatio: 16/9,
                             enableInfiniteScroll: true,
-                            reverse: true,
                             autoPlay: true,
                             scrollDirection: Axis.horizontal,
                             onPageChanged: (index, reason) {
@@ -53,16 +52,21 @@ class _PDPState extends State<PDP> {
                           items: [data["pic1"], data["pic2"], data["pic3"], data["pic4"]].map((url) {
                             return Builder(
                               builder: (BuildContext context) {
-                                return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.amber
-                                    ),
-                                    child: Image.network(
-                                      "http://birk-evaluation.000webhostapp.com/" + url,
-                                      fit: BoxFit.fill,
-                                    )
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.pushNamed(context, "/imgzoom", arguments: {"img" : url});
+                                  },
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                      decoration: BoxDecoration(
+                                          color: Colors.amber
+                                      ),
+                                      child: Image.network(
+                                          "http://birk-evaluation.000webhostapp.com/" + url,
+                                          fit: BoxFit.fill,
+                                        ),
+                                  ),
                                 );
                               },
                             );

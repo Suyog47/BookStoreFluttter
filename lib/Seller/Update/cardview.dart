@@ -77,7 +77,7 @@ class _BookCardsState extends State<BookCards> {
            )
 
            : Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
             child: Column(
               children: [
                 Flexible(
@@ -92,9 +92,9 @@ class _BookCardsState extends State<BookCards> {
                             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                             elevation: 10,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0),
+                              borderRadius: BorderRadius.circular(9.0),
                             ),
-                            
+
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                               child: Row(
@@ -141,8 +141,8 @@ class _BookCardsState extends State<BookCards> {
                                           children: [
                                             SizedBox(
                                               height: 35,
-                                              width: 80,
-                                              child: RaisedButton(
+                                              width: 100,
+                                              child: FlatButton(
                                                   onPressed: () {
                                                     SweetAlert.show(context, title: "Confirmation",
                                                         subtitle: "Really want to delete this book",
@@ -157,8 +157,10 @@ class _BookCardsState extends State<BookCards> {
                                                   },
                                                   child: Text("Delete",
                                                       style: TextStyle(
-                                                          color: Colors.white)),
-                                                  color: Colors.red),
+                                                          color: Colors.red,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 17)),
+                                                  color: Colors.white),
                                             ),
                                           ],
                                         ),
