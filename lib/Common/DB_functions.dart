@@ -66,7 +66,13 @@ class DBFunctions {
       else if (res) {
         SweetAlert.show(context, title: "Success",
             subtitle: "Data Registered successfully",
-            style: SweetAlertStyle.success);
+            style: SweetAlertStyle.success,
+            onPress: (bool isConfirm){
+            if (isConfirm) {
+              Navigator.of(context).popUntil(ModalRoute.withName('/category'));
+          }
+          return true;
+        });
       }
       else {
         SweetAlert.show(context, title: "Oops",
@@ -90,8 +96,13 @@ class DBFunctions {
       if (res) {
         SweetAlert.show(context, title: "Success",
             subtitle: "Data Updated successfully",
-            style: SweetAlertStyle.success);
-        Navigator.of(context).popUntil(ModalRoute.withName('/sellhome'));
+            style: SweetAlertStyle.success,
+            onPress: (bool isConfirm){
+              if (isConfirm) {
+                Navigator.of(context).popUntil(ModalRoute.withName('/category'));
+              }
+              return true;
+            });
       }
       else {
         SweetAlert.show(context, title: "Oops",

@@ -49,7 +49,6 @@ class _PriceDescState extends State<PriceDesc> {
       await db.updateData(context, url, data);
     }
       setState(() => ld = 0);
-    Navigator.of(context).popUntil(ModalRoute.withName('/sellhome'));
     }
 
 

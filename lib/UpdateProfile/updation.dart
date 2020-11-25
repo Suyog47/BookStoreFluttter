@@ -162,7 +162,12 @@ class _UpdationState extends State<Updation> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: textInputDecoration,
                   onChanged: (val) => _num = val,
-                  validator: (val) => val.length != 10 ? "Invalid Number" : null,
+                    validator: (val) {
+                      if(val.length == 10 && int.parse(val[0]) >= 7 ){
+                        return null;
+                      }
+                      return "Enter valid phone number";
+                    }
                 ),
               ),
 

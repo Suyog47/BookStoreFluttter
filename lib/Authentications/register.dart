@@ -133,7 +133,12 @@ class _RegisterState extends State<Register> {
                               keyboardType: TextInputType.number,
                               decoration: textInputDecoration.copyWith(hintText: 'Phone Number:'),
                               onChanged: (val) => _num = val.trim(),
-                              validator: (val) => val.length != 10 ? "Invalid Number" : null,
+                                validator: (val) {
+                                  if(val.length == 10 && int.parse(val[0]) >= 7 ){
+                                    return null;
+                                  }
+                                  return "Enter valid phone number";
+                                }
                             ),
 
 
@@ -206,7 +211,7 @@ class _RegisterState extends State<Register> {
                                     setState(() => ld = 1);
                                    insertData();
                                   }
-                                  if(_loc.isEmpty){
+                                  if(_loc == null){
                                     Fluttertoast.showToast(msg: "Please insert pincode and click search", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
                                   }
                                 },

@@ -15,7 +15,7 @@ class BuyHome extends StatefulWidget {
 class _BuyHomeState extends State<BuyHome> {
 
   DropDownFiles dr = DropDownFiles();
-  String board = "All", std = "All";
+  String board = "All_Boards", std = "All_Standards";
   dynamic data;
   dynamic img;
   int ld = 0;
@@ -24,8 +24,8 @@ class _BuyHomeState extends State<BuyHome> {
   Future getBooks() async {
     var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
     var dt = {
-      "board" : (board == "All") ? '%' : board,
-      "std" : (std == "All") ? '%' : std,
+      "board" : (board == "All_Boards") ? '%' : board,
+      "std" : (std == "All_Standards") ? '%' : std,
     };
 
     var response = await http.post(url, body: dt);
@@ -42,6 +42,7 @@ class _BuyHomeState extends State<BuyHome> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
