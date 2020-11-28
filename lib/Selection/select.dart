@@ -120,7 +120,7 @@ class Selection extends StatelessWidget {
                                     child: RaisedButton(
                                       color: Colors.transparent,
                                       onPressed: () {
-                                        Navigator.pushNamed(context, '/buyhome');
+                                        Navigator.pushNamed(context, '/buyhome', arguments: {"email" : data["email"]});
                                     },
                                       elevation: 10,
                                       child: Text("Enter as a Buyer",

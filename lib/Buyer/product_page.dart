@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:bookonline/Decorations/loader.dart';
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PDP extends StatefulWidget {
   @override
@@ -14,22 +16,9 @@ class _PDPState extends State<PDP> {
   Map data = {};
   int _currentIndex = 0;
   dynamic dt;
+  bool chk, flag = true, ld = false;
 
-
-  Future getBooks(String board, String std) async {
-    var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
-    var dte = {
-      "board" : board,
-      "std" : std,
-    };
-
-    var response = await http.post(url, body: dte);
-    setState(() {
-      dt = jsonDecode(response.body);
-    });
-  }
-
-  Future getRecomendedBooks(String board, String std, String id) async {
+  Future getRecommendedBooks(String board, String std, String id) async {
     var url = 'https://birk-evaluation.000webhostapp.com/recomendation_books.php';
     var dte = {
       "board" : board,
@@ -37,17 +26,56 @@ class _PDPState extends State<PDP> {
     };
 
     var response = await http.post(url, body: dte);
-    setState(() {
-      dt = jsonDecode(response.body);
-    });
+    (this.mounted) ? setState(() => dt = jsonDecode(response.body)) : null;
+  }
+
+  void addToWishList(String board, String std, String id, String email) async {
+    setState(() => ld = true);
+    var url = 'https://birk-evaluation.000webhostapp.com/add_to_wishlist.php';
+    var dte = {
+      "id" : id,
+      "email" : email
+    };
+
+    var response = await http.post(url, body: dte);
+    if(jsonDecode(response.body)){
+      (this.mounted) ? setState(() => chk = !chk) : null;
+      Fluttertoast.showToast(msg: "Added to Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 17);
+    }
+    else{
+      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
+    }
+    setState(() => ld = false);
+    getRecommendedBooks(board, std, id);
+  }
+
+
+  void removeFromWishList(String board, String std, String id, String email) async {
+    setState(() => ld = true);
+    var url = 'https://birk-evaluation.000webhostapp.com/remove_from_wishlist.php';
+    var dte = {
+      "id" : id,
+      "email" : email
+    };
+
+    var response = await http.post(url, body: dte);
+    if(jsonDecode(response.body)){
+      (this.mounted) ? setState(() => chk = !chk) : null;
+      Fluttertoast.showToast(msg: "Removed from Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+    }
+    else{
+      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
+    }
+    setState(() => ld = false);
+    getRecommendedBooks(board, std, id);
   }
 
 
   @override
   Widget build(BuildContext context) {
-
     data = ModalRoute.of(context).settings.arguments;
-    (dt == null) ? getRecomendedBooks(data["boards"], data["standard"], data["Id"]) : null;
+    (dt == null) ? getRecommendedBooks(data["boards"], data["standard"], data["Id"]) : null;
+    (flag) ? setState(() {chk = (data["status"] == "checked") ? true : false; flag = false;}) : null;
 
     return Scaffold(
         appBar: AppBar(
@@ -165,6 +193,28 @@ class _PDPState extends State<PDP> {
 
 
                     SizedBox(height: 15.0),
+
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                           (chk == false) ? IconButton(icon: Icon(Icons.bookmark_border), color: Colors.black, iconSize: 35,
+                              onPressed: () {
+                                (!ld) ? addToWishList(data["boards"], data["standard"], data["Id"], data["email"]) : null;
+                              })
+                              :
+                          IconButton(icon: Icon(Icons.bookmark), color: Colors.red, iconSize: 35,
+                              onPressed: (){
+                                (!ld) ? removeFromWishList(data["boards"], data["standard"], data["Id"], data["email"]) : null;
+                              }),
+
+                          WishlistLoader(ld: ld),
+                        ],
+                      ),
+                    ),
+
+
+                    SizedBox(height: 5.0),
                     Divider(thickness: 1.5,
                       color: Colors.grey,),
                     SizedBox(height: 15.0),
@@ -207,7 +257,7 @@ class _PDPState extends State<PDP> {
                           Text(data["price"],
                             style: TextStyle(fontSize: 30,
                                 color: Colors.red,
-                                decoration: TextDecoration.underline),),
+                                decoration: TextDecoration.underline, fontWeight: FontWeight.bold)),
                         ]
                     ),
 
@@ -341,7 +391,19 @@ class _PDPState extends State<PDP> {
                     SpinKitCircle(
                       color: Colors.blue,
                       size: 60.0,
-                    ) :
+                    )
+                        :
+
+                    (dt == "0") ?
+                    Container(
+                      child: Center(
+                        child: Text("Don't have any recomended books",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2),),
+                      ),
+                    )
+                        :
 
                     Flexible(
                       fit: FlexFit.loose,

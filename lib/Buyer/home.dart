@@ -14,6 +14,8 @@ class BuyHome extends StatefulWidget {
 
 class _BuyHomeState extends State<BuyHome> {
 
+  Map edata = {};
+  String email;
   DropDownFiles dr = DropDownFiles();
   String board = "All_Boards", std = "All_Standards";
   dynamic data;
@@ -24,24 +26,26 @@ class _BuyHomeState extends State<BuyHome> {
   Future getBooks() async {
     var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
     var dt = {
-      "board" : (board == "All_Boards") ? '%' : board,
-      "std" : (std == "All_Standards") ? '%' : std,
+      "board": (board == "All_Boards") ? '%' : board,
+      "std": (std == "All_Standards") ? '%' : std,
     };
 
     var response = await http.post(url, body: dt);
-    setState(() {
-      data = jsonDecode(response.body);
-    });
-    ld = 0;
+    if (this.mounted) {
+      setState(() {
+        data = jsonDecode(response.body);
+      });
+    }
+      ld = 0;
   }
 
-  void initState(){
-    super.initState();
-    getBooks();
-  }
 
   @override
   Widget build(BuildContext context) {
+    getBooks();
+
+    edata = ModalRoute.of(context).settings.arguments;
+    email = edata["email"];
 
     return SafeArea(
       child: Scaffold(
@@ -54,6 +58,9 @@ class _BuyHomeState extends State<BuyHome> {
               ),),
             centerTitle: true,
             actions: [
+              IconButton(icon: Icon(Icons.bookmark, color: Colors.black),
+                  onPressed: () => Navigator.pushNamed(context, "/wishlist", arguments: {"email" : email})),
+
               IconButton(icon: Icon(Icons.power_settings_new, color: Colors.red,),
                   onPressed: () => Navigator.pushReplacementNamed(context, "/")),
             ],

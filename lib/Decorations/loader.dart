@@ -19,6 +19,24 @@ class OtpLoader extends StatelessWidget {
   }
 }
 
+class WishlistLoader extends StatelessWidget {
+
+  bool ld;
+  WishlistLoader({this.ld});
+
+  @override
+  Widget build(BuildContext context) {
+    return ld ? Container(
+      child: Center(
+        child: SpinKitCircle(
+          color: Colors.black,
+          size: 35.0,
+        ),
+      ),
+    ) : SizedBox();
+  }
+}
+
 class Loader extends StatelessWidget {
 
   final int load;
