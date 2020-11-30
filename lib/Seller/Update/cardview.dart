@@ -1,5 +1,5 @@
+import 'package:bookonline/Decorations/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sweetalert/sweetalert.dart';
@@ -46,25 +46,18 @@ class _BookCardsState extends State<BookCards> {
   Widget build(BuildContext context) {
 
     emaildt = ModalRoute.of(context).settings.arguments;
-    getBooks(emaildt["email"]);
+    (data == null) ? getBooks(emaildt["email"]) : null;
 
       return Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             title: Text("Your Book List",
-              style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  letterSpacing: 2.0
-              ),),
+              style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
             centerTitle: true,
           ),
 
           body: (data == null) ?
-          SpinKitCircle(
-            color: Colors.red,
-            size: 60.0,
-          )
+          Center(child: NLoader(load: 1))
 
               : data == "0 results" ?
           Container(

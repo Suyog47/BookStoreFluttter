@@ -83,11 +83,7 @@ class _OtpState extends State<Otp> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Update Profile",
-          style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 20.0,
-              letterSpacing: 2.0
-          ),),
+          style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
         centerTitle: true,
       ),
 

@@ -1,9 +1,9 @@
+import 'package:bookonline/API_Calls/pincode_api.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:flutter/services.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'dart:io';
-import 'package:bookonline/Common/dropdowntext.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bookonline/Common/DB_functions.dart';
 
@@ -74,10 +74,10 @@ class _RegisterState extends State<Register> {
                     Text("Register",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 35.0,
-                          letterSpacing: 2,
+                          fontSize: 55.0,
+                          letterSpacing: 3,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'IndieFlower'
+                          fontFamily: 'NerkoOne'
                       ),),
 
 

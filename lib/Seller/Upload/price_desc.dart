@@ -64,11 +64,7 @@ class _PriceDescState extends State<PriceDesc> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Give Final Details",
-          style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 20.0,
-              letterSpacing: 2.0
-          ),),
+          style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
         centerTitle: true,
       ),
 

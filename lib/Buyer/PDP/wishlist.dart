@@ -1,5 +1,5 @@
+import 'package:bookonline/Decorations/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -33,11 +33,7 @@ class _WishListState extends State<WishList> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Your WishList",
-          style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 25.0,
-              letterSpacing: 2.0
-          ),),
+          style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
         centerTitle: true,
       ),
 
@@ -45,10 +41,7 @@ class _WishListState extends State<WishList> {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
 
           child: (data == null) ?
-          SpinKitCircle(
-            color: Colors.blue,
-            size: 60.0,
-          )  :
+          Center(child: NLoader(load: 1)) :
 
           Stack(
           children: [

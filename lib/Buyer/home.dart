@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:bookonline/Common/dropdowntext.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:bookonline/Decorations/loader.dart';
+import 'package:bookonline/Cache_Calls/log_status.dart';
 
 class BuyHome extends StatefulWidget {
   @override
@@ -21,6 +21,7 @@ class _BuyHomeState extends State<BuyHome> {
   dynamic data;
   dynamic img;
   int ld = 0;
+  GetSetLogStatus cache = GetSetLogStatus();
 
 
   Future getBooks() async {
@@ -28,6 +29,7 @@ class _BuyHomeState extends State<BuyHome> {
     var dt = {
       "board": (board == "All_Boards") ? '%' : board,
       "std": (std == "All_Standards") ? '%' : std,
+      "email" : email
     };
 
     var response = await http.post(url, body: dt);
@@ -42,27 +44,25 @@ class _BuyHomeState extends State<BuyHome> {
 
   @override
   Widget build(BuildContext context) {
-    getBooks();
-
     edata = ModalRoute.of(context).settings.arguments;
     email = edata["email"];
+    (data == null) ? getBooks() : null;
 
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             title: Text("Search",
-              style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 25.0,
-                  letterSpacing: 2.0
-              ),),
+              style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
             centerTitle: true,
             actions: [
               IconButton(icon: Icon(Icons.bookmark, color: Colors.black),
                   onPressed: () => Navigator.pushNamed(context, "/wishlist", arguments: {"email" : email})),
 
               IconButton(icon: Icon(Icons.power_settings_new, color: Colors.red,),
-                  onPressed: () => Navigator.pushReplacementNamed(context, "/")),
+                  onPressed: () async {
+                    cache.deleteLoginStatus();
+                    Navigator.pushReplacementNamed(context, "/");
+                  }),
             ],
           ),
 
@@ -70,10 +70,8 @@ class _BuyHomeState extends State<BuyHome> {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
 
           child: (data == null) ?
-          SpinKitCircle(
-            color: Colors.blue,
-            size: 60.0,
-          )  :
+          Center(child: NLoader(load: 1))
+              :
 
           Stack(
             children: [
@@ -144,7 +142,7 @@ class _BuyHomeState extends State<BuyHome> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: (){
-                            Navigator.pushNamed(context, "/pdp", arguments: data[index]);
+                            Navigator.pushNamed(context, "/pdp", arguments: {"data" : data[index], "eml" : email});
                           },
                           child: Card(
                             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),

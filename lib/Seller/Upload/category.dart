@@ -33,11 +33,7 @@ class _CategoryState extends State<Category> {
       child: Scaffold(
           appBar: AppBar(
             title: Text("Select Category",
-              style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  letterSpacing: 2.0
-              ),),
+              style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
             centerTitle: true,
           ),
           body: Container(

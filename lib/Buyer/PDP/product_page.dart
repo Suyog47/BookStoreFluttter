@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookonline/Decorations/loader.dart';
 import 'dart:convert';
@@ -13,23 +12,25 @@ class PDP extends StatefulWidget {
 
 class _PDPState extends State<PDP> {
 
-  Map data = {};
+  Map dte = {};
   int _currentIndex = 0;
   dynamic dt;
   bool chk, flag = true, ld = false;
+  String email;
 
   Future getRecommendedBooks(String board, String std, String id) async {
     var url = 'https://birk-evaluation.000webhostapp.com/recomendation_books.php';
     var dte = {
       "board" : board,
-      "id" : id
+      "id" : id,
+      "email" : email
     };
 
     var response = await http.post(url, body: dte);
     (this.mounted) ? setState(() => dt = jsonDecode(response.body)) : null;
   }
 
-  void addToWishList(String board, String std, String id, String email) async {
+  void addToWishList(String board, String std, String id) async {
     setState(() => ld = true);
     var url = 'https://birk-evaluation.000webhostapp.com/add_to_wishlist.php';
     var dte = {
@@ -50,7 +51,7 @@ class _PDPState extends State<PDP> {
   }
 
 
-  void removeFromWishList(String board, String std, String id, String email) async {
+  void removeFromWishList(String board, String std, String id) async {
     setState(() => ld = true);
     var url = 'https://birk-evaluation.000webhostapp.com/remove_from_wishlist.php';
     var dte = {
@@ -73,18 +74,17 @@ class _PDPState extends State<PDP> {
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
-    (dt == null) ? getRecommendedBooks(data["boards"], data["standard"], data["Id"]) : null;
-    (flag) ? setState(() {chk = (data["status"] == "checked") ? true : false; flag = false;}) : null;
+    dte = ModalRoute.of(context).settings.arguments;
+    email = dte["eml"];
+    dte = dte["data"];
+
+    (dt == null) ? getRecommendedBooks(dte["boards"], dte["standard"], dte["Id"]) : null;
+    (flag) ? setState(() {chk = (dte["status"] == "checked") ? true : false; flag = false;}) : null;
 
     return Scaffold(
         appBar: AppBar(
           title: Text("Product Page",
-            style: TextStyle(
-                fontFamily: 'RobotoMono',
-                fontSize: 20.0,
-                letterSpacing: 2.0
-            ),),
+            style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
         ),
 
         body: SingleChildScrollView(
@@ -111,7 +111,7 @@ class _PDPState extends State<PDP> {
                             });
                           },
                         ),
-                        items: [data["pic1"], data["pic2"], data["pic3"], data["pic4"]].map((url) {
+                        items: [dte["pic1"], dte["pic2"], dte["pic3"], dte["pic4"]].map((url) {
                           return Builder(
                             builder: (BuildContext context) {
                               return InkWell(
@@ -200,12 +200,12 @@ class _PDPState extends State<PDP> {
                         children: [
                            (chk == false) ? IconButton(icon: Icon(Icons.bookmark_border), color: Colors.black, iconSize: 35,
                               onPressed: () {
-                                (!ld) ? addToWishList(data["boards"], data["standard"], data["Id"], data["email"]) : null;
+                                (!ld) ? addToWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
                               })
                               :
                           IconButton(icon: Icon(Icons.bookmark), color: Colors.red, iconSize: 35,
                               onPressed: (){
-                                (!ld) ? removeFromWishList(data["boards"], data["standard"], data["Id"], data["email"]) : null;
+                                (!ld) ? removeFromWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
                               }),
 
                           WishlistLoader(ld: ld),
@@ -223,16 +223,16 @@ class _PDPState extends State<PDP> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(data["standard"] + " ", style: TextStyle(
+                          Text(dte["standard"] + " ", style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),),
 
                           SizedBox(width: 10),
 
-                          Text(data["subject"] + " ", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                          Text(dte["subject"] + " ", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
 
                           SizedBox(width: 10),
 
-                          Text("("+data["boards"]+")", style: TextStyle(
+                          Text("("+dte["boards"]+")", style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline)),
@@ -254,7 +254,7 @@ class _PDPState extends State<PDP> {
 
                           SizedBox(width: 5),
 
-                          Text(data["price"],
+                          Text(dte["price"],
                             style: TextStyle(fontSize: 30,
                                 color: Colors.red,
                                 decoration: TextDecoration.underline, fontWeight: FontWeight.bold)),
@@ -281,7 +281,7 @@ class _PDPState extends State<PDP> {
                         SizedBox(height: 10),
 
                         Text(
-                            data["description"],
+                            dte["description"],
                           style: TextStyle(fontSize: 15)),
                         ]
                     ),
@@ -313,7 +313,7 @@ class _PDPState extends State<PDP> {
 
                           SizedBox(width: 5),
 
-                          Text(data["fullname"], style: TextStyle(fontSize: 17),),
+                          Text(dte["fullname"], style: TextStyle(fontSize: 17),),
                         ]
                     ),
 
@@ -331,7 +331,7 @@ class _PDPState extends State<PDP> {
 
                           SizedBox(width: 5),
 
-                          Text(data["email"], style: TextStyle(fontSize: 17)),
+                          Text(dte["email"], style: TextStyle(fontSize: 17)),
                         ]
                     ),
 
@@ -349,7 +349,7 @@ class _PDPState extends State<PDP> {
 
                           SizedBox(width: 5),
 
-                          Text(data["state"], style: TextStyle(fontSize: 17),),
+                          Text(dte["state"], style: TextStyle(fontSize: 17),),
                         ]
                     ),
 
@@ -367,7 +367,7 @@ class _PDPState extends State<PDP> {
 
                           SizedBox(width: 5),
 
-                          Text(data["phoneno"], style: TextStyle(fontSize: 17)),
+                          Text(dte["phoneno"], style: TextStyle(fontSize: 17)),
                         ]
                     ),
 
@@ -388,16 +388,13 @@ class _PDPState extends State<PDP> {
 
 
                     (dt == null) ?
-                    SpinKitCircle(
-                      color: Colors.blue,
-                      size: 60.0,
-                    )
+                    Center(child: NLoader(load: 1))
                         :
 
                     (dt == "0") ?
                     Container(
                       child: Center(
-                        child: Text("Don't have any recomended books",
+                        child: Text("Don't have any recommended books",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2),),
@@ -416,7 +413,7 @@ class _PDPState extends State<PDP> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: (){
-                                  Navigator.pushReplacementNamed(context, "/pdp", arguments: dt[index]);
+                                  Navigator.pushReplacementNamed(context, "/pdp", arguments: {"data" : dt[index], "eml" : email});
                                 },
 
                                 child: Card(

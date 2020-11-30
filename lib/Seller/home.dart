@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:bookonline/Cache_Calls/log_status.dart';
 
 class SellHome extends StatelessWidget {
-
   Map data = {};
+  GetSetLogStatus cache = GetSetLogStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +13,13 @@ class SellHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Book Seller",
-          style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 20.0,
-              letterSpacing: 2.0,
-          ),),
+            style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26)),
         actions: [
           IconButton(icon: Icon(Icons.power_settings_new, color: Colors.red,),
-              onPressed: () => Navigator.pushReplacementNamed(context, "/")),
+              onPressed: () async {
+                cache.deleteLoginStatus();
+                Navigator.pushReplacementNamed(context, "/");
+              }),
         ],
     ),
 

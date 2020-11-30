@@ -30,7 +30,7 @@ class WishlistLoader extends StatelessWidget {
       child: Center(
         child: SpinKitCircle(
           color: Colors.black,
-          size: 35.0,
+          size: 30.0,
         ),
       ),
     ) : SizedBox();
@@ -55,3 +55,22 @@ class Loader extends StatelessWidget {
     Text("");
   }
 }
+
+class NLoader extends StatelessWidget {
+
+  final int load;
+  NLoader({this.load});
+
+  @override
+  Widget build(BuildContext context) {
+    return (load == 1) ?
+    Container(
+      child: SpinKitCircle(
+        color: Colors.blue,
+        size: 60.0,
+      ),
+    ) :
+    Text("");
+  }
+}
+

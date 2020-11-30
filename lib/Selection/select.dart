@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bookonline/Cache_Calls/log_status.dart';
 
 class Selection extends StatelessWidget {
 
   Map data = {};
+  GetSetLogStatus cache = GetSetLogStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +15,16 @@ class Selection extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Book Store"),
+          title: Text("Book Store", style: TextStyle(fontFamily: 'BigShoulders', letterSpacing: 2, fontWeight: FontWeight.bold, fontSize: 26),),
           actions: [
             IconButton(icon: Icon(Icons.account_circle, color: Colors.white),
                 onPressed: () => Navigator.pushNamed(context, "/updation", arguments: {"email" : data["email"]})),
 
             IconButton(icon: Icon(Icons.power_settings_new, color: Colors.red,),
-                onPressed: () => Navigator.pushReplacementNamed(context, "/")),
+                onPressed: () async {
+              cache.deleteLoginStatus();
+              Navigator.pushReplacementNamed(context, "/");
+            }),
           ],
         ),
         body: Row(

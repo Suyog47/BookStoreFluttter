@@ -64,10 +64,10 @@ class _Sign_InState extends State<Sign_In> {
                  Text("Login",
                        style: TextStyle(
                          color: Colors.white,
-                         fontSize: 35.0,
-                         letterSpacing: 2,
+                         fontSize: 55.0,
+                         letterSpacing: 3,
                          fontWeight: FontWeight.bold,
-                         fontFamily: 'IndieFlower'
+                         fontFamily: 'NerkoOne'
                        ),),
 
                  SizedBox(height: 40.0),

@@ -3,14 +3,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bookonline/Cache_Calls/log_status.dart';
 
 class DBFunctions {
+  GetSetLogStatus cache = GetSetLogStatus();
 
   Future getSignInData(BuildContext context, var url, var data, var email) async {
     var response = await http.post(url, body: data);
     var res = jsonDecode(response.body);
     if(res){
+      await cache.setLoginStatus(email);
       Navigator.pushReplacementNamed(context, "/select", arguments: {"email" : email});
+
     }
     else{
       SweetAlert.show(context, title: "Failed",
