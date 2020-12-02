@@ -12,7 +12,7 @@ import 'package:bookonline/UpdateProfile/updation.dart';
 import 'package:bookonline/Forget_Password/otp.dart';
 import 'package:bookonline/Forget_Password/updatePass.dart';
 import 'file:///D:/flutterProjects/book_online/lib/Buyer/PDP/full_image.dart';
-import 'file:///D:/flutterProjects/book_online/lib/Buyer/PDP/wishlist.dart';
+import 'file:///D:/flutterProjects/book_online/lib/Buyer/wishlist.dart';
 import 'package:bookonline/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

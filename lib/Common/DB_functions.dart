@@ -134,4 +134,30 @@ class DBFunctions {
       SweetAlert.show(context, title: "Something went wrong", style: SweetAlertStyle.error);
     }
   }
+
+  Future<bool> addToWishList(String url, var dte, String email, String id) async {
+
+    var response = await http.post(url, body: dte);
+    if(jsonDecode(response.body)){
+      Fluttertoast.showToast(msg: "Added to Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 17);
+      return true;
+    }
+    else{
+      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
+      return false;
+    }
+  }
+
+
+  Future<bool> removeFromWishList(String url, var dte, String email, String id) async {
+    var response = await http.post(url, body: dte);
+    if(jsonDecode(response.body)){
+      Fluttertoast.showToast(msg: "Removed from Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+      return true;
+    }
+    else{
+      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
+      return false;
+    }
+  }
 }

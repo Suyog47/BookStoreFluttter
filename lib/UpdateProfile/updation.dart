@@ -172,6 +172,7 @@ class _UpdationState extends State<Updation> {
               ),
 
 
+              Text("Location:"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -218,7 +219,6 @@ class _UpdationState extends State<Updation> {
                 ],
               ),
 
-              Text("Location:"),
               SizedBox(
                 height: 50.0,
                 child: TextFormField(

@@ -46,7 +46,7 @@ class _BuyHomeState extends State<BuyHome> {
   Widget build(BuildContext context) {
     edata = ModalRoute.of(context).settings.arguments;
     email = edata["email"];
-    (data == null) ? getBooks() : null;
+    getBooks();
 
     return SafeArea(
       child: Scaffold(

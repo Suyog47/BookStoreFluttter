@@ -37,28 +37,26 @@ class _WrapperState extends State<Wrapper> {
         ),
 
         child: Container(
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 150),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Shop for", style: TextStyle(color: Colors.red, letterSpacing: 2, fontSize: 30, fontFamily: 'NerkoOne')),
-                        Text("School Books", style: TextStyle(color: Colors.red, letterSpacing: 2, fontSize: 30, fontFamily: 'NerkoOne')),
-                      ],
-                    )
-                  ),
-                  SpinKitCircle(
-                    color: Colors.red,
-                    size: 60.0,
-                  )
-                ],
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(image: AssetImage("assets/bookicon.png"),
+                      height: 60,
+                      width: 60,),
+                    SizedBox(width: 10),
+                    Text("Shop for School Books", style: TextStyle(color: Colors.red, letterSpacing: 2, fontSize: 24, fontFamily: 'NerkoOne')),
+                  ],
+                )
               ),
+              SpinKitCircle(
+                color: Colors.red,
+                size: 60.0,
+              )
             ],
           ),
         )

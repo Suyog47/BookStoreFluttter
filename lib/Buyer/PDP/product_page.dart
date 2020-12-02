@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookonline/Decorations/loader.dart';
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bookonline/Common/DB_functions.dart';
 
 class PDP extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class _PDPState extends State<PDP> {
   dynamic dt;
   bool chk, flag = true, ld = false;
   String email;
+  DBFunctions db = new DBFunctions();
 
   Future getRecommendedBooks(String board, String std, String id) async {
     var url = 'https://birk-evaluation.000webhostapp.com/recomendation_books.php';
@@ -30,7 +31,7 @@ class _PDPState extends State<PDP> {
     (this.mounted) ? setState(() => dt = jsonDecode(response.body)) : null;
   }
 
-  void addToWishList(String board, String std, String id) async {
+  Future addToWishList(String board, String std, String id) async {
     setState(() => ld = true);
     var url = 'https://birk-evaluation.000webhostapp.com/add_to_wishlist.php';
     var dte = {
@@ -38,20 +39,14 @@ class _PDPState extends State<PDP> {
       "email" : email
     };
 
-    var response = await http.post(url, body: dte);
-    if(jsonDecode(response.body)){
-      (this.mounted) ? setState(() => chk = !chk) : null;
-      Fluttertoast.showToast(msg: "Added to Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 17);
-    }
-    else{
-      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
-    }
+    bool b = await db.addToWishList(url, dte, email, id);
+    if(b){(this.mounted) ? setState(() => chk = !chk) : null;}
     setState(() => ld = false);
     getRecommendedBooks(board, std, id);
   }
 
 
-  void removeFromWishList(String board, String std, String id) async {
+  Future removeFromWishList(String board, String std, String id) async {
     setState(() => ld = true);
     var url = 'https://birk-evaluation.000webhostapp.com/remove_from_wishlist.php';
     var dte = {
@@ -59,14 +54,8 @@ class _PDPState extends State<PDP> {
       "email" : email
     };
 
-    var response = await http.post(url, body: dte);
-    if(jsonDecode(response.body)){
-      (this.mounted) ? setState(() => chk = !chk) : null;
-      Fluttertoast.showToast(msg: "Removed from Wishlist", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
-    }
-    else{
-      Fluttertoast.showToast(msg: "Sorry something went wrong...try again", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.yellow, textColor: Colors.grey, fontSize: 17);
-    }
+    bool b = await db.removeFromWishList(url, dte, email, id);
+    if(b){(this.mounted) ? setState(() => chk = !chk) : null;}
     setState(() => ld = false);
     getRecommendedBooks(board, std, id);
   }
@@ -199,13 +188,13 @@ class _PDPState extends State<PDP> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                            (chk == false) ? IconButton(icon: Icon(Icons.bookmark_border), color: Colors.black, iconSize: 35,
-                              onPressed: () {
-                                (!ld) ? addToWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                              onPressed: () async {
+                                (!ld) ? await addToWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
                               })
                               :
                           IconButton(icon: Icon(Icons.bookmark), color: Colors.red, iconSize: 35,
-                              onPressed: (){
-                                (!ld) ? removeFromWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                              onPressed: () async {
+                                (!ld) ? await removeFromWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
                               }),
 
                           WishlistLoader(ld: ld),

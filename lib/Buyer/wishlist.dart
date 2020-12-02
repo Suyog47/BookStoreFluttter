@@ -62,7 +62,7 @@ class _WishListState extends State<WishList> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: (){
-                      Navigator.pushNamed(context, "/pdp", arguments: data[index]);
+                      Navigator.pushNamed(context, "/pdp", arguments: {"data": data[index], "eml" : edata["email"]});
                     },
                     child: Card(
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
