@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,7 @@ class _OtpState extends State<Otp> {
   String _email = '';
   int rand;
   bool ld = false;
+  NetworkCheck net = new NetworkCheck();
 
   void checkEmail() async {
     var url = "https://birk-evaluation.000webhostapp.com/check_email.php";
@@ -114,10 +116,16 @@ class _OtpState extends State<Otp> {
               height: 40,
               width: 130,
               child: RaisedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if(btn1 && _email.isNotEmpty && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_email)) {
-                      setState(() => ld = true);
-                      checkEmail();
+                      int stat = await net.checkNetwork();
+                      if(stat == 1) {
+                        setState(() => ld = true);
+                        checkEmail();
+                      }
+                      else{
+                        Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                      }
                     }
                     },
                     child: Text("Send Otp"),

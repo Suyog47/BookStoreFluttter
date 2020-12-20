@@ -1,8 +1,10 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'dart:io';
 import 'package:bookonline/Common/DB_functions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Sign_In extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _Sign_InState extends State<Sign_In> {
   bool _obscureText = true;
   int ld = 0;
   DBFunctions db = new DBFunctions();
+  NetworkCheck net = new NetworkCheck();
 
   void _toggle() {
     setState(() {
@@ -119,11 +122,17 @@ class _Sign_InState extends State<Sign_In> {
                            color: Colors.redAccent,
                            child: Text("Log In", style: TextStyle(color: Colors.white, fontSize: 18)),
                            onPressed: () async {
-                            if(_formkey.currentState.validate()){
-                              setState(() => ld = 1);
-                              getData();
-                            }
-                           },
+                             if (_formkey.currentState.validate()) {
+                               int stat = await net.checkNetwork();
+                               if (stat == 1) {
+                                 setState(() => ld = 1);
+                                 getData();
+                               }
+                               else{
+                                 Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                               }
+                             }
+                           }
                          ),
                        ),
 

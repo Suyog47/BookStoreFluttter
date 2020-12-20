@@ -1,3 +1,4 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:bookonline/Common/book_data.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'package:bookonline/Common/DB_functions.dart';
 import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PriceDesc extends StatefulWidget {
   @override
@@ -19,6 +22,7 @@ class _PriceDescState extends State<PriceDesc> {
   DBFunctions db = DBFunctions();
   String id, desc, prc;
   int ld = 0;
+  NetworkCheck net = new NetworkCheck();
 
 
   void insert_OR_update(var task) async {
@@ -39,10 +43,11 @@ class _PriceDescState extends State<PriceDesc> {
       "desc": desc,
       "prc": prc,
     };
+    print(data);
 
     if(task == "insert") {
       var url = 'https://birk-evaluation.000webhostapp.com/book_upload.php';
-      await db.insertData(context, url, data);
+      await db.insertBookData(context, url, data);
     }
     else {
       var url = 'https://birk-evaluation.000webhostapp.com/update_book.php';
@@ -121,9 +126,15 @@ class _PriceDescState extends State<PriceDesc> {
                       child: RaisedButton.icon(
                           onPressed: () async {
                             if(_formkey.currentState.validate()) {
-                              setState(() => ld = 1);
-                              var task = dt.task;
-                              insert_OR_update(task);
+                              int stat = await net.checkNetwork();
+                              if (stat == 1) {
+                                setState(() => ld = 1);
+                                var task = dt.task;
+                                insert_OR_update(task);
+                              }
+                              else{
+                                Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                              }
                             }
                           },
                           icon:Icon(Icons.assignment_turned_in),

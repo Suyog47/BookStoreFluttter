@@ -1,4 +1,5 @@
 import 'package:bookonline/API_Calls/pincode_api.dart';
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,7 @@ class _RegisterState extends State<Register> {
    bool _obscureText = true;
    var txt = TextEditingController();
    DBFunctions db = new DBFunctions();
+   NetworkCheck net = new NetworkCheck();
 
    void _toggle() {
      setState(() {
@@ -40,7 +42,7 @@ class _RegisterState extends State<Register> {
        "st" : _loc
      };
 
-     await db.insertData(context, url, data);
+     await db.insertUserData(context, url, data);
      setState(() => ld = 0);
    }
 
@@ -165,17 +167,27 @@ class _RegisterState extends State<Register> {
                                   child: RaisedButton(
                                       onPressed: () async {
                                         if (pin != null && pin != "") {
-                                          setState(() => load = true);
-                                          GetLocation loc = GetLocation();
-                                          var data = await loc.getData(pin);
-                                          if(data == null){
-                                            Fluttertoast.showToast(msg: "Please enter valid pincode", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
+                                          int stat = await net.checkNetwork();
+                                          if(stat == 1) {
+                                            setState(() => load = true);
+                                            GetLocation loc = GetLocation();
+                                            var data = await loc.getData(pin);
+                                            if (data == null) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter valid pincode",
+                                                  toastLength: Toast
+                                                      .LENGTH_LONG,
+                                                  gravity: ToastGravity.CENTER,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 17);
+                                            }
+                                            else {
+                                              setState(() => _loc = data);
+                                              txt.text = _loc;
+                                            }
+                                            setState(() => load = false);
                                           }
-                                          else {
-                                            setState(() => _loc = data);
-                                            txt.text = _loc;
-                                          }
-                                        setState(() => load = false);
                                         }
                                         else{
                                           Fluttertoast.showToast(msg: "Please enter pincode first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);
@@ -208,8 +220,14 @@ class _RegisterState extends State<Register> {
                                 child: Text("Submit", style: TextStyle(color: Colors.white, fontSize: 18)),
                                 onPressed: () async {
                                   if(_formkey.currentState.validate() && _loc != null){
-                                    setState(() => ld = 1);
-                                   insertData();
+                                    int stat = await net.checkNetwork();
+                                    if(stat == 1) {
+                                      setState(() => ld = 1);
+                                      insertData();
+                                    }
+                                    else{
+                                      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                                    }
                                   }
                                   if(_loc == null){
                                     Fluttertoast.showToast(msg: "Please insert pincode and click search", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.CENTER, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 17);

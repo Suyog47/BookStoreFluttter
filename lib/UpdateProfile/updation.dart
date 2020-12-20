@@ -1,4 +1,5 @@
 import 'package:bookonline/API_Calls/pincode_api.dart';
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ class _UpdationState extends State<Updation> {
   int ld = 0;
   var txt = TextEditingController();
   DBFunctions db = new DBFunctions();
+  NetworkCheck net = new NetworkCheck();
 
   void _toggle() {
     setState(() {
@@ -33,12 +35,14 @@ class _UpdationState extends State<Updation> {
   }
 
   Future getData(String email) async {
-    var url = "https://birk-evaluation.000webhostapp.com/get_profile.php";
-    var data = {
-      "email" : email,
-    };
-    var response = await http.post(url, body: data);
-    res = jsonDecode(response.body);
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = "https://birk-evaluation.000webhostapp.com/get_profile.php";
+      var data = {
+        "email": email,
+      };
+      var response = await http.post(url, body: data);
+      res = jsonDecode(response.body);
       setState(() => res = res);
 
       _fullnm = res["fullname"];
@@ -47,6 +51,10 @@ class _UpdationState extends State<Updation> {
       _loc = res["state"];
       txt.text = _loc;
       check = false;
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+    }
   }
 
   Future updateData(String email) async {
@@ -235,10 +243,16 @@ class _UpdationState extends State<Updation> {
                 child: RaisedButton(
                   color: Colors.green[300],
                   child: Text("Update"),
-                  onPressed: () {
+                  onPressed: () async {
                     if(_formkey.currentState.validate()) {
-                      setState(() => ld = 1);
-                      updateData(data["email"]);
+                      int stat = await net.checkNetwork();
+                      if (stat == 1) {
+                        setState(() => ld = 1);
+                        updateData(data["email"]);
+                      }
+                      else{
+                        Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                      }
                     }
                   },
                 ),

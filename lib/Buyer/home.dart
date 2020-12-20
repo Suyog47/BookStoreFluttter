@@ -1,7 +1,9 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:bookonline/Common/dropdowntext.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:bookonline/Decorations/loader.dart';
@@ -22,21 +24,28 @@ class _BuyHomeState extends State<BuyHome> {
   dynamic img;
   int ld = 0;
   GetSetLogStatus cache = GetSetLogStatus();
+  NetworkCheck net = new NetworkCheck();
 
 
   Future getBooks() async {
-    var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
-    var dt = {
-      "board": (board == "All_Boards") ? '%' : board,
-      "std": (std == "All_Standards") ? '%' : std,
-      "email" : email
-    };
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = 'https://birk-evaluation.000webhostapp.com/search_list_book.php';
+      var dt = {
+        "board": (board == "All_Boards") ? '%' : board,
+        "std": (std == "All_Standards") ? '%' : std,
+        "email": email
+      };
 
-    var response = await http.post(url, body: dt);
-    if (this.mounted) {
-      setState(() {
-        data = jsonDecode(response.body);
-      });
+      var response = await http.post(url, body: dt);
+      if (this.mounted) {
+        setState(() {
+          data = jsonDecode(response.body);
+        });
+      }
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
     }
       ld = 0;
   }

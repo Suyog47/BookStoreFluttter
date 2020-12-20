@@ -1,7 +1,9 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bookonline/Decorations/input_decoration.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'package:bookonline/Common/DB_functions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UpdatePass extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _UpdatePassState extends State<UpdatePass> {
   int ld = 0;
   Map data = {};
   DBFunctions db = DBFunctions();
+  NetworkCheck net = new NetworkCheck();
 
   void updateData() async {
     var url = "https://birk-evaluation.000webhostapp.com/update_pass.php";
@@ -97,8 +100,14 @@ class _UpdatePassState extends State<UpdatePass> {
                    child: Text("Update", style: TextStyle(color: Colors.white, fontSize: 18)),
                    onPressed: () async {
                      if(_formkey.currentState.validate() && _pass == _cpass){
-                       setState(() => ld = 1);
-                       updateData();
+                       int stat = await net.checkNetwork();
+                       if(stat == 1) {
+                         setState(() => ld = 1);
+                         updateData();
+                       }
+                       else{
+                         Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                       }
                      }
                      else{
                        setState(() => msg = "Confirm Password don't match");

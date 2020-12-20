@@ -1,5 +1,7 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookonline/Decorations/loader.dart';
 import 'dart:convert';
@@ -18,17 +20,24 @@ class _PDPState extends State<PDP> {
   bool chk, flag = true, ld = false;
   String email;
   DBFunctions db = new DBFunctions();
+  NetworkCheck net = new NetworkCheck();
 
   Future getRecommendedBooks(String board, String std, String id) async {
-    var url = 'https://birk-evaluation.000webhostapp.com/recomendation_books.php';
-    var dte = {
-      "board" : board,
-      "id" : id,
-      "email" : email
-    };
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = 'https://birk-evaluation.000webhostapp.com/recomendation_books.php';
+      var dte = {
+        "board": board,
+        "id": id,
+        "email": email
+      };
 
-    var response = await http.post(url, body: dte);
-    (this.mounted) ? setState(() => dt = jsonDecode(response.body)) : null;
+      var response = await http.post(url, body: dte);
+      (this.mounted) ? setState(() => dt = jsonDecode(response.body)) : null;
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+    }
   }
 
   Future addToWishList(String board, String std, String id) async {
@@ -104,8 +113,14 @@ class _PDPState extends State<PDP> {
                           return Builder(
                             builder: (BuildContext context) {
                               return InkWell(
-                                onTap: (){
+                                onTap: () async {
+                                  int stat = await net.checkNetwork();
+                                  if (stat == 1) {
                                   Navigator.pushNamed(context, "/imgzoom", arguments: {"img" : url});
+                                  }
+                                  else{
+                                    Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                                  }
                                 },
                                 child: Container(
                                     width: MediaQuery.of(context).size.width,
@@ -189,12 +204,24 @@ class _PDPState extends State<PDP> {
                         children: [
                            (chk == false) ? IconButton(icon: Icon(Icons.bookmark_border), color: Colors.black, iconSize: 35,
                               onPressed: () async {
-                                (!ld) ? await addToWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                                 int stat = await net.checkNetwork();
+                                 if (stat == 1) {
+                                 (!ld) ? await addToWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                                }
+                                 else{
+                                   Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                                 }
                               })
                               :
                           IconButton(icon: Icon(Icons.bookmark), color: Colors.red, iconSize: 35,
                               onPressed: () async {
-                                (!ld) ? await removeFromWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                                 int stat = await net.checkNetwork();
+                                 if (stat == 1) {
+                                 (!ld) ? await removeFromWishList(dte["boards"], dte["standard"], dte["Id"]) : null;
+                                }
+                                 else{
+                                   Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+                                 }
                               }),
 
                           WishlistLoader(ld: ld),

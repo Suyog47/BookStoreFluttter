@@ -59,17 +59,14 @@ class DBFunctions {
     }
   }
 
-  Future insertData(BuildContext context, var url, var data) async {
+  Future insertBookData(BuildContext context, var url, var data) async {
     try {
       var response = await http.post(url, body: data);
       var res = jsonDecode(response.body);
 
-      if(res == "email exists") {
-       print("This Email already exists");
-     }
-      else if (res) {
+     if (res) {
         SweetAlert.show(context, title: "Success",
-            subtitle: "Data Registered successfully",
+            subtitle: "Book Registered successfully",
             style: SweetAlertStyle.success,
             onPress: (bool isConfirm){
             if (isConfirm) {
@@ -92,6 +89,38 @@ class DBFunctions {
     }
   }
 
+  Future insertUserData(BuildContext context, var url, var data) async {
+    try {
+      var response = await http.post(url, body: data);
+      var res = jsonDecode(response.body);
+
+      if(res == "email exists") {
+        print("This Email already exists");
+      }
+      else if (res) {
+        SweetAlert.show(context, title: "Success",
+            subtitle: "Data Registered successfully",
+            style: SweetAlertStyle.success,
+            onPress: (bool isConfirm){
+              if (isConfirm) {
+                Navigator.pushReplacementNamed(context, "/");
+              }
+              return true;
+            });
+      }
+      else {
+        SweetAlert.show(context, title: "Oops",
+            subtitle: "Something went Wrong... Try again!!",
+            style: SweetAlertStyle.error);
+      }
+    }
+    catch (e) {
+      print(e);
+      SweetAlert.show(context, title: "Oops",
+          subtitle: "" + e.toString(),
+          style: SweetAlertStyle.error);
+    }
+  }
 
   Future updateData(BuildContext context, var url, var data) async {
     try {

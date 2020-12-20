@@ -1,5 +1,7 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sweetalert/sweetalert.dart';
@@ -15,27 +17,40 @@ class _BookCardsState extends State<BookCards> {
   dynamic data, res;
   Map emaildt = {};
   DBFunctions db = new DBFunctions();
+  NetworkCheck net = new NetworkCheck();
 
   Future getBooks(String email) async {
-    var url = 'https://birk-evaluation.000webhostapp.com/get_selected_books.php';
-    var dt = {
-      "email" : email,
-    };
-    var response = await http.post(url, body: dt);
-    if (this.mounted) {
-      setState(() {
-        data = jsonDecode(response.body);
-      });
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = 'https://birk-evaluation.000webhostapp.com/get_selected_books.php';
+      var dt = {
+        "email": email,
+      };
+      var response = await http.post(url, body: dt);
+      if (this.mounted) {
+        setState(() {
+          data = jsonDecode(response.body);
+        });
+      }
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
     }
   }
 
   Future deleteBook(String id) async {
-    var url = 'https://birk-evaluation.000webhostapp.com/delete_book.php';
-    var dt = {
-      "id" : id,
-    };
-    await db.deleteBook(context, url, dt);
-    getBooks(emaildt["email"]);
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = 'https://birk-evaluation.000webhostapp.com/delete_book.php';
+      var dt = {
+        "id": id,
+      };
+      await db.deleteBook(context, url, dt);
+      getBooks(emaildt["email"]);
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+    }
   }
 
   void initState(){

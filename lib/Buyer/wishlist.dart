@@ -1,5 +1,7 @@
+import 'package:bookonline/Common/network_connectivity_status.dart';
 import 'package:bookonline/Decorations/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,15 +14,22 @@ class _WishListState extends State<WishList> {
 
   Map edata = {};
   dynamic data;
+  NetworkCheck net = new NetworkCheck();
 
   Future getWishlist(String email) async {
-    var url = 'https://birk-evaluation.000webhostapp.com/get_wishlist.php';
-    var dt = {
-      "email" : email
-    };
+    int stat = await net.checkNetwork();
+    if (stat == 1) {
+      var url = 'https://birk-evaluation.000webhostapp.com/get_wishlist.php';
+      var dt = {
+        "email": email
+      };
 
-    var response = await http.post(url, body: dt);
-    (this.mounted) ? setState(() => data = jsonDecode(response.body)) : null;
+      var response = await http.post(url, body: dt);
+      (this.mounted) ? setState(() => data = jsonDecode(response.body)) : null;
+    }
+    else{
+      Fluttertoast.showToast(msg: "Please connect to Internet first", toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.TOP, backgroundColor: Colors.orange, textColor: Colors.black, fontSize: 17);
+    }
   }
 
 
